@@ -1,0 +1,45 @@
+#!/bin/bash
+temp="tmp.$$"
+
+function message {
+    dialog --msgbox "$1" $2 $3
+   }
+
+function end {
+    if [ "$1" = "1" ] || [ $1 = "255" ]; then  
+    	message "$2" 5 35
+    	clear
+    	rm -f $temp
+    exit
+    fi
+}
+
+function delete_file {
+     dialog --yesno "Are you sure you want to delete? \n $FILE" 7 50
+         if  [ $? = 0 ]; then              
+            if [ ! -e "$1" ]; then 
+                 message "File does not exist." 10 30
+            else
+                  rm -f $1
+                  message "$1 has been deleted succsssfully" 0 0 
+            fi
+         else
+              message "Operation has been aborted by the user" 5 43
+         fi
+} 
+
+function delete {
+     dialog --inputbox "Enter path: " 5 40 "$(pwd)/" 2> $temp
+     path=`cat $temp`
+     FILE=$(dialog --title "Delete a file" --stdout --title \
+     "Please choose a file to delete" --fselect "$path" 20 100)
+     if [ $? = 0 ]; then
+         if [ -d "$FILE" ]; then
+              message "This path is not a file" 5 30
+         else
+              delete_file $FILE
+         fi
+     else
+         message "Operation has been aborted by the user" 5 53
+     fi
+}

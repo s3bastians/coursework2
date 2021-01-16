@@ -1,0 +1,29 @@
+#!/bin/bash
+
+. functions
+temp="tmp.$$"
+
+while true
+    do
+        dialog --backtitle "CST1500 Coursework 2" \
+	       --cancel-label "Exit" \
+	       --menu "Choose one of the options" 15 30 10 \
+        1 "Data & Time" \
+        2 "Calendar" \
+        3 "Delete" \
+        4 "System info" \
+               2>$temp
+
+	end $? "Program has been terminated."
+
+	answer=`cat $temp`
+	
+	case $answer in
+	    "1") message "$(date)" 5 40 ;;
+	    "2") dialog --title "Calendar" \
+			--cancel-label "Exit" \
+			--calendar "Choose an arrow" 0 0 ;;
+	    "3") delete ;;
+	    "4") ./systemInfo ;;
+	esac
+     done

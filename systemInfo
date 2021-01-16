@@ -1,0 +1,35 @@
+#!/bin/bash
+# system info
+
+. functions 
+temp="tmp.$$"
+
+while true
+    do
+        dialog --backtitle "Sytem Info" \
+               --cancel-label "Exit" \
+               --menu "Choose one of the options" 15 30 10 \
+	1 "Operating system type" \
+	2 "CPU" \
+	3 "Memory information" \
+	4 "Hard disk information" \
+			2>$temp
+
+	end $? "Returning to the main menu."
+#	result=$?
+#	clear
+
+     #   if [ $result = 1 ] || [ $result = 255 ]; then
+#		rm -f $temp
+#		exit
+ #   	fi 
+
+    	answer=`cat $temp`
+
+    	case $answer in
+	    "1") message "$(uname -a)" 6 80 ;;
+	    "2") message "$(lscpu)" 40 160 ;;
+	    "3") message "$(free -h) " 8 60  ;;
+	    "4") message "$(df -h)"  28 80;;
+     	esac
+    done
