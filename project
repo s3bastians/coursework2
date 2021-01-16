@@ -1,0 +1,31 @@
+#!/bin/bash
+
+. functions
+temp="tmp.$$"
+
+while true
+    do
+        dialog --menu "Choose one of the options" 15 30 10 \
+        1 "Data & Time" \
+        2 "Calendar" \
+        3 "Delete" \
+        4 "System info" \
+        5 "End" \
+               2>$temp
+
+        result=$?
+
+        if [ $result = 1 ] || [ $result = 255 ]; then
+           end
+        fi 
+
+	answer=`cat $temp`
+	
+	case $answer in
+	    "1") message "$(date)" 5 40 ;;
+	    "2") dialog --title "Calendar" --calendar "Choose an arrow" 0 0 ;;
+	    "3") delete ;;
+	    "4") ./child ;;
+	    "5") end ;;
+	esac
+     done
