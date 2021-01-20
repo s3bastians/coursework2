@@ -1,9 +1,11 @@
-#!/bin/bash
+#!/bin/bash      
+# tell the os to invoke speciefied shell 
 
-. functions
-temp="tmp.$$"
+. functions   # import external function file 
 
-while true
+temp="tmp.$$" # assign temporary file to variable temp, where $$ will be replaces with PID of the  current shell 
+
+while true  # start infinite while loop  which will display dialog menu  
     do
         dialog --backtitle "CST1500 Coursework 2" \
 	       --cancel-label "Exit" \
@@ -12,18 +14,19 @@ while true
         2 "Calendar" \
         3 "Delete" \
         4 "System info" \
-               2>$temp
+               2>$temp # save the exit code to variable temp 
 
-	end $? "Program has been terminated."
+	end $? "Program has been terminated." # pass exit code to function end 
 
-	answer=`cat $temp`
+	answer=`cat $temp` # save the value from temprora file to variable answer 
 	
-	case $answer in
-	    "1") message "$(date)" 5 40 ;;
+	# use case statment to accept user ipnut stored in the variable answer
+	case $answer in 
+	    "1") message "$(date)" 5 40 ;; # use funtion message to display infobox  with parameters given 
 	    "2") dialog --title "Calendar" \
 			--cancel-label "Exit" \
-			--calendar "Choose an arrow" 0 0 ;;
-	    "3") delete ;;
-	    "4") ./systemInfo ;;
+			--calendar "Choose an arrow" 0 0 ;;  # option displays callendar
+	    "3") isFile ;;  # invoke function isFile which checks if path is a file
+	    "4") ./systemInfo ;; # invoke another shell process
 	esac
      done

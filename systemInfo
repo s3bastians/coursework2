@@ -1,10 +1,11 @@
 #!/bin/bash
+# tell the os to invoke speciefied shell 
 # system info
 
-. functions 
-temp="tmp.$$"
+. functions  # import external function file 
+temp="tmp.$$" # assign temporary file to variable temp, where $$ will be replaces with PID of the  current shell 
 
-while true
+while true # start infinite while loop  which will display dialog menu  
     do
         dialog --backtitle "Sytem Info" \
                --cancel-label "Exit" \
@@ -13,19 +14,20 @@ while true
 	2 "CPU" \
 	3 "Memory information" \
 	4 "Hard disk information" \
-			2>$temp
+			2>$temp # save the exit code to variable temp 
 
-	end $? "Returning to the main menu."
-#	result=$?
-#	clear
+	end $? "Returning to the main menu." # pass exit code to function end 
 
-     #   if [ $result = 1 ] || [ $result = 255 ]; then
-#		rm -f $temp
-#		exit
- #   	fi 
-
+	# save the value from temprora file to variable answer 
     	answer=`cat $temp`
 
+	# use case statment to accept user ipnut stored in the variable answer
+	# uname -a  linux command which determines system type
+	# lscpu - linux command which determines cpu type
+	# free -h  linux command which dermines the memory 
+	# df -h  linux commna which shows hdd info annd mounting point
+        # case useses message funcion which displays dialog infobox. Function take paramaters relevant
+	# linux command and height and width of the infobox
     	case $answer in
 	    "1") message "$(uname -a)" 6 80 ;;
 	    "2") message "$(lscpu)" 40 160 ;;
