@@ -1,5 +1,12 @@
 #!/bin/bash
 # tell the os to invoke speciefied shell 
+
+# CST1500 Coursework 2 
+
+# M00724948 - Sebastian Sokalski 
+
+# M00737687 - Sebastiaan Gastol
+
 # system info
 
 . functions  # import external function file 
@@ -7,16 +14,16 @@ temp="tmp.$$" # assign temporary file to variable temp, where $$ will be replace
 
 while true # start infinite while loop  which will display dialog menu  
     do
-        dialog --backtitle "Sytem Info" \
+        dialog --backtitle "System Info" \
                --cancel-label "Exit" \
-               --menu "Choose one of the options" 15 30 10 \
+               --menu "Choose one of the options: " 15 30 4 \
 	1 "Operating system type" \
 	2 "CPU" \
 	3 "Memory information" \
 	4 "Hard disk information" \
 			2>$temp # save the exit code to variable temp 
 
-	end $? "Returning to the main menu." # pass exit code to function end 
+	end $? "Returning to the main menu." 5 32 # pass exit code to function end 
 
 	# save the value from temprora file to variable answer 
     	answer=`cat $temp`
@@ -26,12 +33,12 @@ while true # start infinite while loop  which will display dialog menu
 	# lscpu - linux command which determines cpu type
 	# free -h  linux command which dermines the memory 
 	# df -h  linux commna which shows hdd info annd mounting point
-        # case useses message funcion which displays dialog infobox. Function take paramaters relevant
-	# linux command and height and width of the infobox
+        # case useses message funcion which displays dialog infobox. Function take paramaters:
+	# relevant linux command and height and width of the infobox
     	case $answer in
 	    "1") message "$(uname -a)" 6 80 ;;
 	    "2") message "$(lscpu)" 40 160 ;;
-	    "3") message "$(free -h) " 8 60  ;;
+	    "3") message "$(free -h) " 7 60  ;;
 	    "4") message "$(df -h)"  28 80;;
      	esac
     done
